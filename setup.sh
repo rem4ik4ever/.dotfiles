@@ -15,6 +15,6 @@ brew bundle --file="$DOTFILES_DIR/packages/Brewfile"
 mkdir -p ~/.config ~/.claude
 
 # Stow dotfiles
-stow -d "$DOTFILES_DIR" -t ~ home
+stow --adopt -d "$DOTFILES_DIR" -t ~ home
 
 echo "Done! Run 'nvim' to install plugins."
