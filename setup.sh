@@ -1,22 +1,20 @@
 #!/bin/bash
 set -e
 
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 # Install homebrew if missing
 if ! command -v brew &> /dev/null; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-# Install dependencies
-brew install neovim fzf go tree-sitter tree-sitter-cli
+# Install packages
+brew bundle --file="$DOTFILES_DIR/packages/Brewfile"
 
-# Create symlinks - nvim
-mkdir -p ~/.config
-ln -sf "$(pwd)/nvim" ~/.config/nvim
+# Create parent directories (stow won't create these)
+mkdir -p ~/.config ~/.claude
 
-# Create symlinks - claude
-mkdir -p ~/.claude
-ln -sf "$(pwd)/claude/CLAUDE.md" ~/.claude/CLAUDE.md
-ln -sf "$(pwd)/claude/skills" ~/.claude/skills
-ln -sf "$(pwd)/claude/commands" ~/.claude/commands
+# Stow dotfiles
+stow -d "$DOTFILES_DIR" -t ~ home
 
 echo "Done! Run 'nvim' to install plugins."

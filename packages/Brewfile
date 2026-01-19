@@ -1,0 +1,13 @@
+# Core tools
+brew "stow"
+
+# Editor
+brew "neovim"
+
+# Language support
+brew "go"
+brew "tree-sitter"
+brew "tree-sitter-cli"
+
+# Utilities
+brew "fzf"

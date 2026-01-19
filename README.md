@@ -1,6 +1,6 @@
 # Dotfiles
 
-Personal config for nvim and claude.
+Personal config for nvim and claude. Uses [GNU Stow](https://www.gnu.org/software/stow/) for symlink management.
 
 ## Quick Setup
 
@@ -10,32 +10,33 @@ cd ~/.dotfiles
 ./setup.sh
 ```
 
-## What's Included
+## Structure
 
 ```
 .dotfiles/
-├── setup.sh          # bootstrap script
-├── nvim/             # neovim config (see nvim/README.md)
-└── claude/           # claude code config
-    ├── CLAUDE.md     # global instructions
-    ├── commands/     # custom slash commands
-    └── skills/       # custom skills
+├── home/                 # stow root (maps to ~)
+│   ├── .config/
+│   │   └── nvim/         # neovim config
+│   └── .claude/
+│       ├── CLAUDE.md     # global instructions
+│       ├── commands/     # custom slash commands
+│       └── skills/       # custom skills
+├── packages/
+│   └── Brewfile          # homebrew packages
+└── setup.sh              # bootstrap script
 ```
 
 ## Manual Setup
 
 ```bash
-# nvim
-ln -sf ~/.dotfiles/nvim ~/.config/nvim
-
-# claude
-ln -sf ~/.dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
-ln -sf ~/.dotfiles/claude/skills ~/.claude/skills
-ln -sf ~/.dotfiles/claude/commands ~/.claude/commands
+brew bundle --file=packages/Brewfile
+stow -t ~ home
 ```
 
-## Dependencies
+## Adding New Dotfiles
 
-```bash
-brew install neovim fzf go tree-sitter tree-sitter-cli
-```
+Place files in `home/` mirroring target location:
+- `~/.config/foo` → `home/.config/foo`
+- `~/.zshrc` → `home/.zshrc`
+
+Then run `stow -t ~ home` to create symlinks.
